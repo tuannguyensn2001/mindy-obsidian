@@ -38,9 +38,8 @@ export function IngestApp({ errorMessage, isSubmitting, onSubmit }: IngestAppPro
 				<p className="mindy-ingest__eyebrow">Ingest pipeline</p>
 				<h2 className="mindy-ingest__title">Capture source material for Mindy</h2>
 				<p className="mindy-ingest__body">
-					Ingest data from different sources, summarize it with an LLM, then turn the result
-					into an Obsidian document. This first version stores the raw content and creates a
-					draft note in your current vault.
+					Ingest source text, send it through the summarize flow, then save both the summary
+					and original content into a draft note in your vault.
 				</p>
 			</div>
 
@@ -87,7 +86,7 @@ export function IngestApp({ errorMessage, isSubmitting, onSubmit }: IngestAppPro
 
 				<div className="mindy-ingest__actions">
 					<button className="mod-cta" type="submit" disabled={!canSubmit}>
-						{isSubmitting ? "Creating draft..." : "Create draft note"}
+						{isSubmitting ? "Summarizing and creating draft..." : "Create summarized draft"}
 					</button>
 				</div>
 			</form>

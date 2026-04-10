@@ -4,6 +4,7 @@ import { MindyPluginSettings } from "../settings";
 export type CreateIngestDraftInput = {
 	title?: string;
 	rawContent: string;
+	summary: string;
 	sourceType: "raw-content";
 	settings: MindyPluginSettings;
 };
@@ -14,7 +15,7 @@ export async function createIngestDraft(app: App, input: CreateIngestDraftInput)
 	const noteTitle = buildNoteTitle(input.title, input.settings.defaultTitlePrefix);
 	const safeBaseName = sanitizeFileName(noteTitle);
 	const filePath = await buildAvailablePath(app, safeBaseName);
-	const noteContent = buildDraftContent(noteTitle, input.rawContent, input.sourceType);
+	const noteContent = buildDraftContent(noteTitle, input.summary, input.rawContent, input.sourceType);
 	const file = await app.vault.create(filePath, noteContent);
 
 	await app.workspace.getLeaf(true).openFile(file);
@@ -38,18 +39,12 @@ function buildNoteTitle(title: string | undefined, defaultTitlePrefix: string): 
 	return `${defaultTitlePrefix} ${date} ${time}`;
 }
 
-function buildDraftContent(title: string, rawContent: string, sourceType: string): string {
+function buildDraftContent(title: string, summary: string, rawContent: string, sourceType: string): string {
 	return [
 		`# ${title}`,
 		"",
 		"## Summary",
-		"LLM summary is not connected in v1 yet. This draft preserves the source content and reserves space for the generated summary.",
-		"",
-		"## Source",
-		`- Type: ${sourceType}`,
-		"",
-		"## Raw content",
-		rawContent.trim(),
+		summary.trim(),
 		"",
 	].join("\n");
 }

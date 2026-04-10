@@ -3,10 +3,14 @@ import MindyPlugin from "./main";
 
 export interface MindyPluginSettings {
 	defaultTitlePrefix: string;
+	openRouterApiKey: string;
+	openRouterModel: string;
 }
 
 export const DEFAULT_SETTINGS: MindyPluginSettings = {
 	defaultTitlePrefix: "Mindy ingest",
+	openRouterApiKey: "",
+	openRouterModel: "openai/gpt-4.1-mini",
 };
 
 export class MindySettingTab extends PluginSettingTab {
@@ -30,6 +34,34 @@ export class MindySettingTab extends PluginSettingTab {
 					.setValue(this.plugin.settings.defaultTitlePrefix)
 					.onChange(async (value) => {
 						this.plugin.settings.defaultTitlePrefix = value.trim() || DEFAULT_SETTINGS.defaultTitlePrefix;
+						await this.plugin.saveSettings();
+					}),
+			);
+
+		new Setting(containerEl)
+			.setName("OpenRouter API key")
+			.setDesc("Used for the summarize step before Mindy creates the draft note.")
+			.addText((text) => {
+				text
+					.setPlaceholder("sk-or-v1-...")
+					.setValue(this.plugin.settings.openRouterApiKey)
+					.onChange(async (value) => {
+						this.plugin.settings.openRouterApiKey = value.trim();
+						await this.plugin.saveSettings();
+					});
+
+				text.inputEl.type = "password";
+			});
+
+		new Setting(containerEl)
+			.setName("OpenRouter model")
+			.setDesc("Model ID sent to OpenRouter, for example `openai/gpt-4.1-mini`.")
+			.addText((text) =>
+				text
+					.setPlaceholder("openai/gpt-4.1-mini")
+					.setValue(this.plugin.settings.openRouterModel)
+					.onChange(async (value) => {
+						this.plugin.settings.openRouterModel = value.trim() || DEFAULT_SETTINGS.openRouterModel;
 						await this.plugin.saveSettings();
 					}),
 			);
