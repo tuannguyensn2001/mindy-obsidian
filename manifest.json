@@ -3,7 +3,7 @@
 	"name": "Mindy",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "Demonstrates some of the capabilities of the Obsidian API.",
+	"description": "Ingest source material, prepare AI summaries, and turn them into Obsidian notes.",
 	"author": "tuannguyensn2001",
 	"authorUrl": "https://obsidian.md",
 	"fundingUrl": "https://obsidian.md/pricing",

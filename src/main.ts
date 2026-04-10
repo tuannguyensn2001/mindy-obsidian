@@ -1,6 +1,6 @@
-import { Plugin } from "obsidian";
+import { Menu, Plugin } from "obsidian";
 import { DEFAULT_SETTINGS, MindyPluginSettings, MindySettingTab } from "./settings";
-import { openReactModal } from "./ui/react-modal";
+import { openIngestModal } from "./ui/ingest-modal";
 
 export default class MindyPlugin extends Plugin {
 	settings: MindyPluginSettings;
@@ -8,15 +8,28 @@ export default class MindyPlugin extends Plugin {
 	async onload() {
 		await this.loadSettings();
 
+		this.addRibbonIcon("sparkles", "Mindy", (event: MouseEvent) => {
+			const menu = new Menu();
+			menu.addItem((item) =>
+				item
+					.setTitle("Ingest")
+					.setIcon("plus-circle")
+					.onClick(() => this.openIngestModal()),
+			);
+			menu.showAtMouseEvent(event);
+		});
+
 		this.addCommand({
-			id: "open-react-demo",
-			name: "Open react demo modal",
-			callback: () => {
-				openReactModal(this.app, this.settings.mySetting);
-			},
+			id: "open-mindy-ingest",
+			name: "Open Mindy ingest",
+			callback: () => this.openIngestModal(),
 		});
 
 		this.addSettingTab(new MindySettingTab(this.app, this));
+	}
+
+	private openIngestModal() {
+		openIngestModal(this.app, { settings: this.settings });
 	}
 
 	async loadSettings() {

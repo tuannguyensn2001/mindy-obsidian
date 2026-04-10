@@ -1,10 +1,19 @@
-.mindy-react-app {
-	display: grid;
-	gap: 0.75rem;
-	padding: 0.5rem 0;
+.mindy-ingest-modal .modal-content {
+	padding-top: 0.25rem;
 }
 
-.mindy-react-app__eyebrow {
+.mindy-ingest {
+	display: grid;
+	gap: 1rem;
+	padding: 0.25rem 0 0.5rem;
+}
+
+.mindy-ingest__hero {
+	display: grid;
+	gap: 0.5rem;
+}
+
+.mindy-ingest__eyebrow {
 	margin: 0;
 	color: var(--text-accent);
 	font-size: var(--font-ui-smaller);
@@ -13,13 +22,88 @@
 	text-transform: uppercase;
 }
 
-.mindy-react-app__title {
+.mindy-ingest__title {
 	margin: 0;
 	font-size: var(--h2-size);
 	line-height: 1.2;
 }
 
-.mindy-react-app__body {
+.mindy-ingest__body {
 	margin: 0;
 	color: var(--text-muted);
+	line-height: 1.5;
+}
+
+.mindy-ingest__tabs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+
+.mindy-ingest__tab {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 999px;
+	background: var(--background-secondary);
+	color: var(--text-muted);
+	font-size: var(--font-ui-small);
+	font-weight: var(--font-medium);
+	padding: 0.4rem 0.75rem;
+}
+
+.mindy-ingest__tab.is-active {
+	background: color-mix(in srgb, var(--interactive-accent) 12%, var(--background-primary));
+	border-color: color-mix(in srgb, var(--interactive-accent) 32%, var(--background-modifier-border));
+	color: var(--text-normal);
+}
+
+.mindy-ingest__tab-badge {
+	border-radius: 999px;
+	background: var(--background-modifier-hover);
+	color: var(--text-faint);
+	font-size: 0.72rem;
+	padding: 0.08rem 0.38rem;
+}
+
+.mindy-ingest__form {
+	display: grid;
+	gap: 1rem;
+}
+
+.mindy-ingest__field {
+	display: grid;
+	gap: 0.5rem;
+}
+
+.mindy-ingest__label {
+	font-size: var(--font-ui-small);
+	font-weight: var(--font-medium);
+}
+
+.mindy-ingest__input,
+.mindy-ingest__textarea {
+	width: 100%;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 12px;
+	background: var(--background-primary-alt);
+	color: var(--text-normal);
+	padding: 0.75rem 0.9rem;
+}
+
+.mindy-ingest__textarea {
+	min-height: 280px;
+	resize: vertical;
+	line-height: 1.5;
+}
+
+.mindy-ingest__error {
+	margin: 0;
+	color: var(--text-error);
+}
+
+.mindy-ingest__actions {
+	display: flex;
+	justify-content: flex-end;
 }
