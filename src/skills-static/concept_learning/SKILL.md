@@ -7,15 +7,31 @@ description: Turn concept-focused material into notes that are easy to understan
 
 ## When to use this skill
 
-Use this skill when the source mainly explains a concept, model, abstraction, principle, or pattern.
+Use this skill when the source is mainly trying to explain a concept, principle, abstraction, mental model, or pattern.
+Typical signals:
+- The content answers questions like “what is X?”, “how should I think about X?”, or “why does X matter?”
+- The source introduces terminology, definitions, or conceptual building blocks.
+- The goal is understanding a technical idea, not comparing options or planning implementation.
+
+Good fit examples:
+- Explaining CAP theorem
+- Explaining event sourcing
+- Explaining idempotency
+- Explaining what a vector database is
 
 ## Rewrite instructions
 
-1. Start with the core idea in simple language.
-2. Explain what the concept is, what problem it addresses, and why it matters.
-3. Clarify the main abstractions, terms, or mental primitives used in the source.
-4. Include a simple mental model when it improves understanding.
-5. Highlight important assumptions, constraints, properties, and trade-offs.
-6. Focus on understanding first, then practical relevance.
-7. Prefer this structure when it fits: `## Overview`, `## Key ideas`, `## Mental model`, `## Why it matters`, `## Practical takeaways`, `## Gaps / ambiguity`.
-8. Do not reduce the output to a shallow summary.
+- Start with the core idea in simple language.
+- Explain what the concept is, what problem it addresses, and why it matters.
+- Clarify the main abstractions, terms, or mental primitives used in the source.
+- If useful, include a simple mental model for how to think about the concept.
+- Highlight important assumptions, constraints, properties, and trade-offs.
+- Focus on understanding first, then practical relevance.
+- Use this structure when relevant:
+	- Overview
+	- Key ideas
+	- Mental model
+	- Why it matters
+	- Practical takeaways
+	- Gaps / ambiguity
+- Do not reduce the output to a shallow summary.

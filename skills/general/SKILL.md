@@ -7,14 +7,28 @@ description: Rewrite general technical source material into clear, study-friendl
 
 ## When to use this skill
 
-Use this skill when no more specialized skill fits clearly.
+Use this skill only when no specialized skill clearly fits better.
 
+Typical signals:
+- The source mixes multiple intents without one dominant pattern.
+- The content is technical, but it is not mainly concept explanation, comparison, internals, decision rationale, code explanation, implementation planning, or engineering practice.
+- A more specific skill would force the wrong structure.
+
+Good fit examples:
+- Mixed technical notes
+- General article summaries
+- Source material with broad scope and no strong dominant mode
 ## Rewrite instructions
 
-1. Identify the main idea and present it clearly at the start.
-2. Organize the material into the most useful learning structure based on the content.
-3. Highlight the most important concepts, facts, mechanisms, constraints, and takeaways.
-4. Surface process, rationale, or comparisons clearly when they appear in the source.
-5. Prefer understanding and reviewability over extreme brevity.
-6. Prefer this structure when it fits: `## Overview`, `## Key ideas`, `## Important details`, `## Practical takeaways`, `## Gaps / ambiguity`.
-7. Do not force a structure that does not fit the source.
+- Identify the main idea and present it clearly at the start.
+- Organize the material into the most useful learning structure based on the content.
+- Highlight the most important concepts, facts, mechanisms, constraints, and takeaways.
+- If the source contains process, rationale, or comparisons, surface them clearly.
+- Prefer understanding and reviewability over extreme brevity.
+- Use this structure when relevant:
+	- Overview
+	- Key ideas
+	- Important details
+	- Practical takeaways
+	- Gaps / ambiguity
+- Do not force a structure that does not fit the source.

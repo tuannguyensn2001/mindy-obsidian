@@ -41,11 +41,8 @@ function buildNoteTitle(title: string | undefined, defaultTitlePrefix: string): 
 
 function buildDraftContent(title: string, summary: string, rawContent: string, sourceType: string): string {
 	return [
-		`# ${title}`,
-		"",
-		"## Summary",
+
 		summary.trim(),
-		"",
 	].join("\n");
 }
 
