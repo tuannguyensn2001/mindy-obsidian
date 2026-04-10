@@ -1,6 +1,7 @@
-import { Menu, Plugin } from "obsidian";
+import { Plugin } from "obsidian";
 import { DEFAULT_SETTINGS, MindyPluginSettings, MindySettingTab } from "./settings";
 import { openIngestModal } from "./ui/ingest-modal";
+import { openMindyCommandPalette } from "./ui/command-palette";
 
 export default class MindyPlugin extends Plugin {
 	settings: MindyPluginSettings;
@@ -8,15 +9,14 @@ export default class MindyPlugin extends Plugin {
 	async onload() {
 		await this.loadSettings();
 
-		this.addRibbonIcon("sparkles", "Mindy", (event: MouseEvent) => {
-			const menu = new Menu();
-			menu.addItem((item) =>
-				item
-					.setTitle("Ingest")
-					.setIcon("plus-circle")
-					.onClick(() => this.openIngestModal()),
-			);
-			menu.showAtMouseEvent(event);
+		this.addRibbonIcon("sparkles", "Mindy", () => {
+			this.openCommandPalette();
+		});
+
+		this.addCommand({
+			id: "open-mindy-command-palette",
+			name: "Open Mindy command palette",
+			callback: () => this.openCommandPalette(),
 		});
 
 		this.addCommand({
@@ -30,6 +30,12 @@ export default class MindyPlugin extends Plugin {
 
 	private openIngestModal() {
 		openIngestModal(this.app, { settings: this.settings });
+	}
+
+	private openCommandPalette() {
+		openMindyCommandPalette(this.app, {
+			openIngest: () => this.openIngestModal(),
+		});
 	}
 
 	async loadSettings() {
