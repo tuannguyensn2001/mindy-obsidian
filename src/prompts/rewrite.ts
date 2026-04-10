@@ -20,7 +20,10 @@ export function buildSkillsPrompt(skills: SkillMetadata[]): string {
 	}
 
 	const skillsList = skills
-		.map((skill) => `- ${skill.name}: ${skill.description}`)
+		.map((skill) => [
+			`- ${skill.name}: ${skill.description}`,
+			skill.whenToUse ? `  When to use: ${collapseWhitespace(skill.whenToUse)}` : "",
+		].filter(Boolean).join("\n"))
 		.join("\n");
 
 	return [
@@ -30,6 +33,10 @@ export function buildSkillsPrompt(skills: SkillMetadata[]): string {
 		"Available skills:",
 		skillsList,
 	].join("\n");
+}
+
+function collapseWhitespace(value: string): string {
+	return value.replace(/\s+/g, " ").trim();
 }
 
 export function buildRewritePrompt(rawContent: string, language: string): string {

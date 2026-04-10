@@ -8,7 +8,6 @@ import { IngestApp, IngestFormValues } from "./ingest-app";
 
 type OpenIngestModalOptions = {
 	settings: MindyPluginSettings;
-	pluginId: string;
 };
 
 class IngestModal extends Modal {
@@ -64,7 +63,6 @@ class IngestModal extends Modal {
 		try {
 			const summary = await rewriteRawContent(
 				this.app,
-				this.options.pluginId,
 				this.options.settings,
 				trimmedRawContent,
 			);

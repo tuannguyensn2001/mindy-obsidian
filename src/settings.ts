@@ -50,7 +50,7 @@ export class MindySettingTab extends PluginSettingTab {
 
 		new Setting(containerEl)
 			.setName("Language")
-			.setDesc("Used in the rewrite prompt so Mindy writes the generated title and note in the selected language.")
+			.setDesc("Used in the rewrite prompt so the plugin writes the generated title and note in the selected language.")
 			.addDropdown((dropdown) => {
 				for (const [value, label] of Object.entries(LANGUAGE_OPTIONS)) {
 					dropdown.addOption(value, label);
@@ -65,8 +65,8 @@ export class MindySettingTab extends PluginSettingTab {
 			});
 
 		new Setting(containerEl)
-			.setName("OpenRouter API key")
-			.setDesc("Used for the skill-based rewrite step before Mindy creates the draft note.")
+			.setName("OpenRouter API Key")
+			.setDesc("Used for the skill-based rewrite step before the plugin creates the draft note.")
 			.addText((text) => {
 				text
 					.setPlaceholder("sk-or-v1-...")

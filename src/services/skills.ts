@@ -1,46 +1,28 @@
-import { App, normalizePath } from "obsidian";
+import { STATIC_SKILLS } from "../skills-static";
 
 export type SkillMetadata = {
 	name: string;
 	description: string;
-	path: string;
+	whenToUse: string;
+	content: string;
 };
 
-export async function discoverSkills(app: App, pluginId: string): Promise<SkillMetadata[]> {
-	const pluginRoot = getPluginRoot(pluginId);
-	const builtSkillsRoot = normalizePath(`${pluginRoot}/skills`);
-
-	let listing;
-	try {
-		listing = await app.vault.adapter.list(builtSkillsRoot);
-	} catch {
-		return [];
-	}
-
-	const discoveredSkills: SkillMetadata[] = [];
-
-	for (const folderPath of listing.folders) {
-		const skillFilePath = normalizePath(`${folderPath}/SKILL.md`);
-
-		try {
-			const content = await app.vault.adapter.read(skillFilePath);
+export async function discoverSkills(): Promise<SkillMetadata[]> {
+	return STATIC_SKILLS
+		.map((content) => {
 			const frontmatter = parseSkillFrontmatter(content);
 
-			discoveredSkills.push({
+			return {
 				name: frontmatter.name,
 				description: frontmatter.description,
-				path: skillFilePath,
-			});
-		} catch {
-			continue;
-		}
-	}
-
-	return discoveredSkills.sort((left, right) => left.name.localeCompare(right.name));
+				whenToUse: extractSection(content, "When to use this skill"),
+				content,
+			};
+		})
+		.sort((left, right) => left.name.localeCompare(right.name));
 }
 
 export async function loadSkillContent(
-	app: App,
 	skills: SkillMetadata[],
 	name: string,
 ): Promise<{ skillDirectory: string; content: string } | null> {
@@ -49,21 +31,10 @@ export async function loadSkillContent(
 		return null;
 	}
 
-	const content = await app.vault.adapter.read(skill.path);
-
 	return {
-		skillDirectory: getSkillDirectory(skill.path),
-		content: stripFrontmatter(content),
+		skillDirectory: skill.name,
+		content: stripFrontmatter(skill.content),
 	};
-}
-
-function getPluginRoot(pluginId: string): string {
-	return normalizePath(`.obsidian/plugins/${pluginId}`);
-}
-
-function getSkillDirectory(skillPath: string): string {
-	const slashIndex = skillPath.lastIndexOf("/");
-	return slashIndex === -1 ? skillPath : skillPath.slice(0, slashIndex);
 }
 
 function parseSkillFrontmatter(content: string): { name: string; description: string } {
@@ -96,4 +67,18 @@ function parseSkillFrontmatter(content: string): { name: string; description: st
 function stripFrontmatter(content: string): string {
 	const match = content.match(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/);
 	return match ? content.slice(match[0].length).trim() : content.trim();
+}
+
+function extractSection(content: string, heading: string): string {
+	const body = stripFrontmatter(content);
+	const escapedHeading = escapeRegExp(heading);
+	const match = body.match(
+		new RegExp(`^##\\s+${escapedHeading}\\s*$\\r?\\n([\\s\\S]*?)(?=^##\\s+|\\Z)`, "m"),
+	);
+
+	return match?.[1]?.trim() ?? "";
+}
+
+function escapeRegExp(value: string): string {
+	return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }

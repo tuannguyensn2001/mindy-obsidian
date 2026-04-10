@@ -34,7 +34,6 @@ const rewriteResultSchema = z.object({
 
 export async function rewriteRawContent(
 	app: App,
-	pluginId: string,
 	settings: MindyPluginSettings,
 	rawContent: string,
 ): Promise<RewriteResult> {
@@ -48,7 +47,7 @@ export async function rewriteRawContent(
 		throw new MissingRewriteConfigError("OpenRouter model is missing. Set it in Mindy settings.");
 	}
 
-	const skills = await discoverSkills(app, pluginId);
+	const skills = await discoverSkills();
 	const openRouter = createOpenRouter({ apiKey });
 	const { output } = await generateText({
 		model: openRouter(modelName),
@@ -75,7 +74,7 @@ export async function rewriteRawContent(
 				}),
 				execute: async ({ name }, { experimental_context }) => {
 					const context = experimental_context as RewriteContext;
-					const loadedSkill = await loadSkillContent(context.app, context.skills, name);
+					const loadedSkill = await loadSkillContent(context.skills, name);
 					if (!loadedSkill) {
 						return { error: `Skill '${name}' not found.` };
 					}
