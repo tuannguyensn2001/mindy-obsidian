@@ -1,7 +1,7 @@
 {
 	"id": "mindy",
 	"name": "Mindy",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"minAppVersion": "0.15.0",
 	"description": "Ingest source material, prepare AI summaries, and turn them into notes.",
 	"author": "tuannguyensn2001",
