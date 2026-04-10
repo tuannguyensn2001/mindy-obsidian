@@ -1,90 +1,66 @@
-# Obsidian Sample Plugin
+# Mindy
 
-This is a sample plugin for Obsidian (https://obsidian.md).
+Mindy is an Obsidian plugin for capturing source material and turning it into draft notes inside your vault. The current release focuses on a local-first ingest flow: paste raw content, create a draft note, and continue editing from there.
 
-This project uses TypeScript to provide type checking and documentation.
-The repo depends on the latest plugin API (obsidian.d.ts) in TypeScript Definition format, which contains TSDoc comments describing what it does.
+## Features
 
-This sample plugin demonstrates some of the basic functionality the plugin API can do.
-- Adds a ribbon icon, which shows a Notice when clicked.
-- Adds a command "Open modal (simple)" which opens a Modal.
-- Adds a plugin setting tab to the settings page.
-- Registers a global click event and output 'click' to the console.
-- Registers a global interval which logs 'setInterval' to the console.
-
-## First time developing plugins?
-
-Quick starting guide for new plugin devs:
-
-- Check if [someone already developed a plugin for what you want](https://obsidian.md/plugins)! There might be an existing plugin similar enough that you can partner up with.
-- Make a copy of this repo as a template with the "Use this template" button (login to GitHub if you don't see it).
-- Clone your repo to a local development folder. For convenience, you can place this folder in your `.obsidian/plugins/your-plugin-name` folder.
-- Install NodeJS, then run `npm i` in the command line under your repo folder.
-- Run `npm run dev` to compile your plugin from `main.ts` to `main.js`.
-- Make changes to `main.ts` (or create new `.ts` files). Those changes should be automatically compiled into `main.js`.
-- Reload Obsidian to load the new version of your plugin.
-- Enable plugin in settings window.
-- For updates to the Obsidian API run `npm update` in the command line under your repo folder.
-
-## Releasing new releases
-
-- Update your `manifest.json` with your new version number, such as `1.0.1`, and the minimum Obsidian version required for your latest release.
-- Update your `versions.json` file with `"new-plugin-version": "minimum-obsidian-version"` so older versions of Obsidian can download an older version of your plugin that's compatible.
-- Create new GitHub release using your new version number as the "Tag version". Use the exact version number, don't include a prefix `v`. See here for an example: https://github.com/obsidianmd/obsidian-sample-plugin/releases
-- Upload the files `manifest.json`, `main.js`, `styles.css` as binary attachments. Note: The manifest.json file must be in two places, first the root path of your repository and also in the release.
-- Publish the release.
-
-> You can simplify the version bump process by running `npm version patch`, `npm version minor` or `npm version major` after updating `minAppVersion` manually in `manifest.json`.
-> The command will bump version in `manifest.json` and `package.json`, and add the entry for the new version to `versions.json`
-
-## Adding your plugin to the community plugin list
-
-- Check the [plugin guidelines](https://docs.obsidian.md/Plugins/Releasing/Plugin+guidelines).
-- Publish an initial version.
-- Make sure you have a `README.md` file in the root of your repo.
-- Make a pull request at https://github.com/obsidianmd/obsidian-releases to add your plugin.
+- Open a dedicated Mindy command palette from the ribbon or Command palette.
+- Paste raw text from articles, transcripts, meeting notes, or research dumps.
+- Create a new draft note with a generated title when you do not provide one.
+- Keep all content inside the current vault with no required external service.
 
 ## How to use
 
-- Clone this repo.
-- Make sure your NodeJS is at least v16 (`node --version`).
-- `npm i` or `yarn` to install dependencies.
-- `npm run dev` to start compilation in watch mode.
+1. Open the Command palette and run `Mindy: Open ingest`, or click the Mindy ribbon icon.
+2. Optionally enter a note title.
+3. Paste the source material into the raw content field.
+4. Select **Create draft note**.
 
-## Manually installing the plugin
+The plugin creates a new note in the vault root with:
 
-- Copy over `main.js`, `styles.css`, `manifest.json` to your vault `VaultFolder/.obsidian/plugins/your-plugin-id/`.
+- a top-level title
+- a placeholder summary section
+- source metadata
+- the original raw content
 
-## Improve code quality with eslint
-- [ESLint](https://eslint.org/) is a tool that analyzes your code to quickly find problems. You can run ESLint against your plugin to find common bugs and ways to improve your code. 
-- This project already has eslint preconfigured, you can invoke a check by running`npm run lint`
-- Together with a custom eslint [plugin](https://github.com/obsidianmd/eslint-plugin) for Obsidan specific code guidelines.
-- A GitHub action is preconfigured to automatically lint every commit on all branches.
+## Settings
 
-## Funding URL
+Mindy currently supports one setting:
 
-You can include funding URLs where people who use your plugin can financially support it.
+- `Default title prefix`: used when a draft note is created without a custom title.
 
-The simple way is to set the `fundingUrl` field to your link in your `manifest.json` file:
+## Privacy and data handling
 
-```json
-{
-    "fundingUrl": "https://buymeacoffee.com"
-}
+- Mindy is local-first. It creates notes only inside the current Obsidian vault.
+- This version does not send data to external APIs or services.
+- This version does not include analytics or telemetry.
+
+## Development
+
+- Node.js 18 or newer is recommended.
+- Install dependencies with `npm install`.
+- Start watch mode with `npm run dev`.
+- Build a production bundle with `npm run build`.
+- Run static checks with `npm run lint`.
+
+## Release checklist
+
+Before creating a GitHub release for Obsidian submission:
+
+1. Confirm `manifest.json`, `versions.json`, `README.md`, and `LICENSE` are present at the repository root.
+2. Update `manifest.json` to the release version in `x.y.z` format.
+3. Update `versions.json` if `minAppVersion` changes.
+4. Run `npm run build`.
+5. Create a GitHub release whose tag exactly matches the plugin version, without a `v` prefix.
+6. Upload `main.js`, `manifest.json`, and `styles.css` to the release as assets.
+7. Submit the plugin to `obsidianmd/obsidian-releases` by adding a new entry to `community-plugins.json`.
+
+## Manual installation
+
+Copy `main.js`, `manifest.json`, and `styles.css` into:
+
+```text
+<vault>/.obsidian/plugins/mindy-obsidian/
 ```
 
-If you have multiple URLs, you can also do:
-
-```json
-{
-    "fundingUrl": {
-        "Buy Me a Coffee": "https://buymeacoffee.com",
-        "GitHub Sponsor": "https://github.com/sponsors",
-        "Patreon": "https://www.patreon.com/"
-    }
-}
-```
-
-## API Documentation
-
-See https://docs.obsidian.md
+Then reload Obsidian and enable the plugin in **Settings → Community plugins**.

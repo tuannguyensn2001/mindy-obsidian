@@ -1,4 +1,6 @@
 import esbuild from "esbuild";
+import { cp, rm } from "node:fs/promises";
+import path from "node:path";
 import process from "process";
 import { builtinModules } from 'node:module';
 
@@ -10,6 +12,28 @@ if you want to view the source, please visit the github repository of this plugi
 `;
 
 const prod = (process.argv[2] === "production");
+const skillsSourceDir = path.join(process.cwd(), "src/skills-static");
+const skillsOutputDir = path.join(process.cwd(), "skills");
+
+async function copySkillsAssets() {
+	await rm(skillsOutputDir, { recursive: true, force: true });
+	await cp(skillsSourceDir, skillsOutputDir, { recursive: true });
+}
+
+function copySkillsPlugin() {
+	return {
+		name: "copy-skills",
+		setup(build) {
+			build.onEnd(async (result) => {
+				if (result.errors.length > 0) {
+					return;
+				}
+
+				await copySkillsAssets();
+			});
+		},
+	};
+}
 
 const context = await esbuild.context({
 	banner: {
@@ -39,11 +63,14 @@ const context = await esbuild.context({
 	treeShaking: true,
 	outfile: "main.js",
 	minify: prod,
+	plugins: [copySkillsPlugin()],
 });
 
 if (prod) {
 	await context.rebuild();
+	await copySkillsAssets();
 	process.exit(0);
 } else {
 	await context.watch();
+	await copySkillsAssets();
 }
