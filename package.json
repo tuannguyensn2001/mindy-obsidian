@@ -26,10 +26,11 @@
 		"typescript-eslint": "8.35.1"
 	},
 	"dependencies": {
-		"@openrouter/ai-sdk-provider": "^1.5.4",
-		"ai": "^5.0.172",
+		"@openrouter/ai-sdk-provider": "^2.5.1",
+		"ai": "^6.0.156",
 		"obsidian": "latest",
 		"react": "^19.2.5",
-		"react-dom": "^19.2.5"
+		"react-dom": "^19.2.5",
+		"zod": "^4.3.6"
 	}
 }

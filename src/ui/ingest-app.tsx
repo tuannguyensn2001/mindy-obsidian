@@ -66,7 +66,7 @@ export function IngestApp({ errorMessage, isSubmitting, onSubmit }: IngestAppPro
 					<input
 						className="mindy-ingest__input"
 						type="text"
-						placeholder="Optional. Mindy will generate one if left blank."
+						placeholder="Optional. Mindy will use the generated post title if left blank."
 						value={title}
 						onChange={(event) => setTitle(event.target.value)}
 					/>

@@ -1,7 +1,12 @@
-import { generateText, jsonSchema, stepCountIs, tool } from "ai";
+import { generateText, jsonSchema, Output, stepCountIs, tool } from "ai";
 import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import { App } from "obsidian";
-import { buildRewritePrompt, buildSkillsPrompt, REWRITE_AGENT_SYSTEM_PROMPT } from "../prompts/rewrite";
+import { z } from "zod";
+import {
+	buildRewritePrompt,
+	buildSkillsPrompt,
+	REWRITE_AGENT_SYSTEM_PROMPT,
+} from "../prompts/rewrite";
 import { discoverSkills, loadSkillContent, type SkillMetadata } from "./skills";
 import { MindyPluginSettings } from "../settings";
 
@@ -17,12 +22,22 @@ type RewriteContext = {
 	skills: SkillMetadata[];
 };
 
+export type RewriteResult = {
+	title: string;
+	summary: string;
+};
+
+const rewriteResultSchema = z.object({
+	title: z.string().trim().min(1).describe('Title post'),
+	summary: z.string().trim().min(1).describe('Content'),
+});
+
 export async function rewriteRawContent(
 	app: App,
 	pluginId: string,
 	settings: MindyPluginSettings,
 	rawContent: string,
-): Promise<string> {
+): Promise<RewriteResult> {
 	const apiKey = settings.openRouterApiKey.trim();
 	if (!apiKey) {
 		throw new MissingRewriteConfigError("OpenRouter API key is missing. Set it in Mindy settings.");
@@ -35,14 +50,15 @@ export async function rewriteRawContent(
 
 	const skills = await discoverSkills(app, pluginId);
 	const openRouter = createOpenRouter({ apiKey });
-	const { text } = await generateText({
+	const { output } = await generateText({
 		model: openRouter(modelName),
 		system: [
 			REWRITE_AGENT_SYSTEM_PROMPT,
 			"",
 			buildSkillsPrompt(skills),
 		].join("\n"),
-		prompt: buildRewritePrompt(rawContent),
+		prompt: buildRewritePrompt(rawContent, settings.language),
+		output: Output.object({ schema: rewriteResultSchema }),
 		tools: {
 			loadSkill: tool({
 				description: "Load a skill to get specialized rewrite instructions.",
@@ -75,5 +91,5 @@ export async function rewriteRawContent(
 		} satisfies RewriteContext,
 	});
 
-	return text.trim();
+	return output;
 }

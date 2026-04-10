@@ -69,9 +69,9 @@ class IngestModal extends Modal {
 				trimmedRawContent,
 			);
 			const file = await createIngestDraft(this.app, {
-				title: values.title,
+				title: values.title.trim() || summary.title,
 				rawContent: trimmedRawContent,
-				summary,
+				summary: summary.summary,
 				sourceType: "raw-content",
 				settings: this.options.settings,
 			});

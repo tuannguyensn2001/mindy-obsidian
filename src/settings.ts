@@ -3,14 +3,24 @@ import MindyPlugin from "./main";
 
 export interface MindyPluginSettings {
 	defaultTitlePrefix: string;
+	language: string;
 	openRouterApiKey: string;
 	openRouterModel: string;
 }
 
 export const DEFAULT_SETTINGS: MindyPluginSettings = {
 	defaultTitlePrefix: "Mindy ingest",
+	language: "English",
 	openRouterApiKey: "",
 	openRouterModel: "openai/gpt-4.1-mini",
+};
+
+const LANGUAGE_OPTIONS: Record<string, string> = {
+	English: "English",
+	Vietnamese: "Vietnamese",
+	"Chinese (Simplified)": "Chinese (Simplified)",
+	Japanese: "Japanese",
+	Korean: "Korean",
 };
 
 export class MindySettingTab extends PluginSettingTab {
@@ -37,6 +47,22 @@ export class MindySettingTab extends PluginSettingTab {
 						await this.plugin.saveSettings();
 					}),
 			);
+
+		new Setting(containerEl)
+			.setName("Language")
+			.setDesc("Used in the rewrite prompt so Mindy writes the generated title and note in the selected language.")
+			.addDropdown((dropdown) => {
+				for (const [value, label] of Object.entries(LANGUAGE_OPTIONS)) {
+					dropdown.addOption(value, label);
+				}
+
+				dropdown
+					.setValue(this.plugin.settings.language)
+					.onChange(async (value) => {
+						this.plugin.settings.language = value;
+						await this.plugin.saveSettings();
+					});
+			});
 
 		new Setting(containerEl)
 			.setName("OpenRouter API key")
