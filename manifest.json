@@ -1,7 +1,7 @@
 {
-	"id": "mindy-obsidian",
+	"id": "mindy",
 	"name": "Mindy",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"minAppVersion": "0.15.0",
 	"description": "Ingest source material, prepare AI summaries, and turn them into Obsidian notes.",
 	"author": "tuannguyensn2001",
