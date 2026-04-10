@@ -38,8 +38,8 @@ export function IngestApp({ errorMessage, isSubmitting, onSubmit }: IngestAppPro
 				<p className="mindy-ingest__eyebrow">Ingest pipeline</p>
 				<h2 className="mindy-ingest__title">Capture source material for Mindy</h2>
 				<p className="mindy-ingest__body">
-					Ingest source text, send it through the summarize flow, then save both the summary
-					and original content into a draft note in your vault.
+					Ingest source text, route it through a skill-based rewrite flow, then save the
+					rewritten notes and original content into a draft note in your vault.
 				</p>
 			</div>
 
@@ -86,7 +86,7 @@ export function IngestApp({ errorMessage, isSubmitting, onSubmit }: IngestAppPro
 
 				<div className="mindy-ingest__actions">
 					<button className="mod-cta" type="submit" disabled={!canSubmit}>
-						{isSubmitting ? "Summarizing and creating draft..." : "Create summarized draft"}
+						{isSubmitting ? "Rewriting and creating draft..." : "Create rewritten draft"}
 					</button>
 				</div>
 			</form>

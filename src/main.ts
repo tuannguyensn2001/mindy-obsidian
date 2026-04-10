@@ -29,7 +29,10 @@ export default class MindyPlugin extends Plugin {
 	}
 
 	private openIngestModal() {
-		openIngestModal(this.app, { settings: this.settings });
+		openIngestModal(this.app, {
+			settings: this.settings,
+			pluginId: this.manifest.id,
+		});
 	}
 
 	private openCommandPalette() {

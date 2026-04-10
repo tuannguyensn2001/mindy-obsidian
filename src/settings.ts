@@ -40,7 +40,7 @@ export class MindySettingTab extends PluginSettingTab {
 
 		new Setting(containerEl)
 			.setName("OpenRouter API key")
-			.setDesc("Used for the summarize step before Mindy creates the draft note.")
+			.setDesc("Used for the skill-based rewrite step before Mindy creates the draft note.")
 			.addText((text) => {
 				text
 					.setPlaceholder("sk-or-v1-...")

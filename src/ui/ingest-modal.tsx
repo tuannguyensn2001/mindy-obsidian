@@ -3,11 +3,12 @@ import { createRoot, Root } from "react-dom/client";
 import { App, Modal, Notice } from "obsidian";
 import { MindyPluginSettings } from "../settings";
 import { createIngestDraft } from "../services/ingest";
-import { summarizeRawContent } from "../services/summarize";
+import { rewriteRawContent } from "../services/rewrite";
 import { IngestApp, IngestFormValues } from "./ingest-app";
 
 type OpenIngestModalOptions = {
 	settings: MindyPluginSettings;
+	pluginId: string;
 };
 
 class IngestModal extends Modal {
@@ -61,7 +62,12 @@ class IngestModal extends Modal {
 		this.render();
 
 		try {
-			const summary = await summarizeRawContent(this.options.settings, trimmedRawContent);
+			const summary = await rewriteRawContent(
+				this.app,
+				this.options.pluginId,
+				this.options.settings,
+				trimmedRawContent,
+			);
 			const file = await createIngestDraft(this.app, {
 				title: values.title,
 				rawContent: trimmedRawContent,
